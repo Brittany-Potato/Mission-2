@@ -1,13 +1,12 @@
 console.log("connected");
 
-
-/// Background colour cycle 
+/// Background colour cycle
 // let pinks = ["#E7A1B0", "#E38AAE", "#C25283", "#A24857", "#B3446C"];
 // let second = 0;
 // function doColorChange() {
 //     document.body.style.background = pinks[second];
 //     second += 1;
-//     if (second >= pinks.length) 
+//     if (second >= pinks.length)
 //         second = 0;
 // }
 
@@ -18,7 +17,7 @@ console.log("connected");
 // function doColorChange1() {
 //     document.querySelector('h1').style.color = blues[second1];
 //     second1 += 1;
-//     if (second1 >= blues.length) 
+//     if (second1 >= blues.length)
 //         second1 = 0;
 // }
 
@@ -29,7 +28,7 @@ console.log("connected");
 // function doColorChange2() {
 //     document.querySelector('p').style.color = blues[second2];
 //     second2 += 1;
-//     if (second2 >= blues.length) 
+//     if (second2 >= blues.length)
 //         second2 = 0;
 // }
 
@@ -38,15 +37,126 @@ console.log("connected");
 let blues = ["#9AFEFF", "#4EE2EC", "#16E2F5", "#50EBEC", "#A0CFEC"];
 let second3 = 0;
 function doColorChange3() {
-    document.body.style.color = blues[second3];
-    second3 += 1;
-    if (second3 >= blues.length) 
-        second3 = 0;
+  document.body.style.color = blues[second3];
+  second3 += 1;
+  if (second3 >= blues.length) second3 = 0;
 }
 
 setInterval(doColorChange3, 1000);
 
-const follow = document.getElementById('follow');
+const follow = document.getElementById("follow");
 let count = 6;
 count = 2680;
-follow.textContent = `Twitch follower count ${count}`
+follow.textContent = `Twitch follower count ${count}`;
+
+// Carousel
+
+!(function (d) {
+  // Variables
+  let itemClassName = "carousel__photo";
+  (items = d.getElementsByClassName(itemClassName)),
+    (totalItems = items.length),
+    (slide = 0),
+    (moving = true);
+  // Functions to set initial classes
+  function setInitialClasses() {
+    // Targets the previous, current, and next items
+    // This assumes there are at least three items.
+    items[totalItems - 1].classList.add("prev");
+    items[0].classList.add("active");
+    items[1].classList.add("next");
+  }
+  // Set event listeners
+  function setEventListeners() {
+    let next = d.getElementsByClassName("carousel__button--next")[0],
+      prev = d.getElementsByClassName("carousel__button--prev")[0];
+    next.addEventListener("click", moveNext);
+    prev.addEventListener("click", movePrev);
+    // Next navigation handler
+    function moveNext() {
+      // Check if moving
+      if (!moving) {
+        // If it's the last slide, reset to 0, else +1
+        if (slide === totalItems - 1) {
+          slide = 0;
+        } else {
+          slide++;
+        }
+        // Move carousel to updated slide
+        moveCarouselTo(slide);
+      }
+    }
+    // Previous navigation handler
+    function movePrev() {
+      // Check if moving
+      if (!moving) {
+        // If it's the first slide, set as the last slide, else -1
+        if (slide === 0) {
+          slide = totalItems - 1;
+        } else {
+          slide--;
+        }
+
+        // Move carousel to updated slide
+        moveCarouselTo(slide);
+      }
+    }
+  }
+  function disableInteraction() {
+    // Set 'moving' to true for the same duration as our transition.
+    // (0.5s = 500ms)
+    
+    moving = true;
+    // setTimeout runs its function once after the given time
+    setTimeout(function(){
+      moving = false
+    }, 500);
+  }
+  function moveCarouselTo(slide) {
+    // Check if carousel is moving, if not, allow interaction
+    if(!moving) {
+      // temporarily disable interactivity
+      disableInteraction();
+      // Update the "old" adjacent slides with "new" ones
+      var newPrevious = slide - 1,
+          newNext = slide + 1,
+          oldPrevious = slide - 2,
+          oldNext = slide + 2;
+      // Test if carousel has more than three items
+      if ((totalItems - 1) > 3) {
+        // Checks and updates if the new slides are out of bounds
+        if (newPrevious <= 0) {
+          oldPrevious = (totalItems - 1);
+        } else if (newNext >= (totalItems - 1)){
+          oldNext = 0;
+        }
+        // Checks and updates if slide is at the beginning/end
+        if (slide === 0) {
+          newPrevious = (totalItems - 1);
+          oldPrevious = (totalItems - 2);
+          oldNext = (slide + 1);
+        } else if (slide === (totalItems -1)) {
+          newPrevious = (slide - 1);
+          newNext = 0;
+          oldNext = 1;
+        }
+        // Now we've worked out where we are and where we're going, 
+        // by adding/removing classes we'll trigger the transitions.
+        // Reset old next/prev elements to default classes
+        items[oldPrevious].className = itemClassName;
+        items[oldNext].className = itemClassName;
+        // Add new classes
+        items[newPrevious].className = itemClassName + " prev";
+        items[slide].className = itemClassName + " active";
+        items[newNext].className = itemClassName + " next";
+      }
+    }
+  }
+  function initCarousel() {
+    setInitialClasses();
+    setEventListeners();
+    // Set moving to false so that the carousel becomes interactive
+    moving = false;
+  }
+  initCarousel();
+}(document));

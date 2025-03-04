@@ -5,20 +5,24 @@ body {
   background-blend-mode: darken;
   background-color: rgba(119, 85, 96, 0.979);
   border-bottom: 100%;
+  font-family: Courier New;
+  font-size: 1vw;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 h1 {
   display: flex;
   text-align: center;
   justify-content: center;
-  font-size: 350%;
+  font-size: 300%;
   margin-top: 5%;
   border-bottom: double;
 }
 
 p {
   margin: 10%;
-  font-size: 150%;
+  font-size: 200%;
   border: double 10px;
   padding: 2.5%;
   float: left;
@@ -32,16 +36,16 @@ p1 {
   text-align: center;
   justify-content: center;
   margin: 10%;
-  font-size: 150%;
+  font-size: 200%;
   border: double 10px;
 }
 
 #gif {
   float: right;
-  margin-top: 80px;
+  margin-top: 90px;
   margin-left: 10px;
   height: auto;
-  width: 80%;
+  width: 90%;
   border: double 10px;
   padding: 10%;
   clip-path: ellipse(40% 50%);
@@ -73,11 +77,95 @@ p1 {
 #follow {
   margin-top: 0%;
   margin-right: 60%;
+  margin-bottom: -20px;
+}
+
+
+.carousel-wrapper {
+  overflow: hidden;
+  width: 95%;
+  box-sizing: border-box;
+}
+
+.carousel {
+  transform-style: preserve-3d;
 }
 
 .carousel__photo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 40%;
+  opacity: 0;
+  position: absolute;
+  top:0;
+  width: 50%;
+  margin: 10%;
+  /* padding: 1rem 4rem; */
+  z-index: 100;
+  transition: transform .5s, opacity .5s, z-index .5s;
+  border: double 10px;
 }
+
+.carousel__photo.initial,
+.carousel__photo.active {
+  opacity: 1;
+  position: relative;
+  z-index: 900;
+}
+/* so the JS dynamically sets the classes to pre=position the prev & next items. */
+.carousel__photo.prev,
+.carousel__photo.next {
+  z-index: 800;
+}
+.carousel__photo.prev {
+  transform: translateX(-100%); /* Move 'prev' item to the left */
+}
+.carousel__photo.next {
+  transform: translateX(100%); /* Move 'next' item to the right */
+}
+
+/* Navigation buttons */
+
+.carousel__button--prev,
+.carousel__button--next {
+  position: absolute;
+  top:50%;
+  width: 5%;
+  height: 10%;
+  margin-left: 0%;
+  margin-right: 25%;
+  background-color: #FFF;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  cursor: pointer; 
+  z-index: 1001; /* Sit on top of everything */
+  border: double 10px;
+}
+.carousel__button--prev {
+  left:0;
+}
+.carousel__button--next {
+  right:0;
+}
+.carousel__button--prev::after,
+.carousel__button--next::after {
+  content: " ";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  left: 54%;
+  border-right: 2px solid rgb(81, 184, 243);
+  border-bottom: 2px solid rgb(81, 184, 243);
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+.carousel__button--next::after {
+  left: 47%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+p:hover {
+  border: 0px;
+}
+p1:hover {
+  border: 0px;
+}
+
+
